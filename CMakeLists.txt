@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-project(processing_module
+project(processing2
   VERSION 0.0.1
-  DESCRIPTION "processing_module"
+  DESCRIPTION "processing2"
   LANGUAGES C CXX)
 
-set(TARGET_NAME "processing_module")
+set(TARGET_NAME "processing2")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /FS " )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP5 " )
 endif (WIN32)
  
 if (UNIX)
