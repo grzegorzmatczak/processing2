@@ -2,32 +2,13 @@ cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project(processing2
   VERSION 0.0.1
   DESCRIPTION "processing2"
-  LANGUAGES C CXX)
+  LANGUAGES C CXX
+)
 
-set(TARGET_NAME "processing2")
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-if (WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP5 " )
-endif (WIN32)
- 
-if (UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -lX11 -Wall" )
-endif (UNIX)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILE_OPTIONS}")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-
-if (WIN32)
-    set(QT5_PATH  "D:\\Qt5\\5.15.2\\msvc2019_64")
-    list(APPEND CMAKE_PREFIX_PATH ${QT5_PATH})
-    set(OpenCV_DIR "D:\\repo\\opencv-4.10.0-build")
-    list(APPEND CMAKE_PREFIX_PATH CMAKE_INSTALL_LIBDIR)
-    list(APPEND CMAKE_PREFIX_PATH CMAKE_INSTALL_PREFIX)
-    
-endif (WIN32)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
@@ -37,6 +18,10 @@ find_package(Qt5Widgets REQUIRED)
 find_package(OpenCV  REQUIRED)
 find_package(OpenCV QUIET COMPONENTS core highgui imgproc imgcodecs videoio video tracking)
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+include_directories( "../utils2/src" )
+include_directories( "../utils2/include" )
+
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${DEFAULT_BUILD_TYPE}' as none was specified")
@@ -83,30 +68,36 @@ include_directories( "src/Filter/filters" )
 include_directories( "src/Adder" )
 include_directories( "src/Adder/adders" )
 
-add_library(${PROJECT_NAME}_lib STATIC
+add_library(${PROJECT_NAME} STATIC
     ${SRC} ${HEADERS}
-    ${ADDER_SRC}  ${ADDER_HEADERS}
+    ${ADDER_SRC} ${ADDER_HEADERS}
     ${FILTER_SRC} ${FILTER_HEADERS}
     ${SUBTRACTOR_SRC} ${SUBTRACTOR_HEADERS}
 )
 
-target_link_libraries(${PROJECT_NAME}_lib utils2_lib Qt::Core Threads::Threads ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} 
+    utils2
+    Qt::Core
+    Threads::Threads
+    ${OpenCV_LIBS}
+)
 
-install(TARGETS ${PROJECT_NAME}_lib
+install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
     
-install(TARGETS ${PROJECT_NAME}_lib EXPORT ${PROJECT_NAME}Config
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Config
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-
+MESSAGE(STATUS "PROJECT_NAME: ${PROJECT_NAME}")
+MESSAGE(STATUS "CMAKE_INSTALL_INCLUDEDIR: ${CMAKE_INSTALL_INCLUDEDIR}")
 MESSAGE(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
 MESSAGE(STATUS "CMAKE_INSTALL_LIBDIR: ${CMAKE_INSTALL_LIBDIR}")
 MESSAGE(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
 
 add_executable(${PROJECT_NAME}_test ${SRC_HEADERS_TEST})
-target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib gtest gmock)
+target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME} gtest gmock)
 
 #export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_NAME}Config.cmake)
