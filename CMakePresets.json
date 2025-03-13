@@ -24,7 +24,9 @@
             "OPENCV_VERSION_WINDOWS": "4100",
             "CMAKE_BUILD_TYPE": "Debug",
             "CUSTOM_INSTALL_PREFIX": "D:/repo/TensorTracker/install/windows-base",
-            "utils2_DIR": "${sourceDir}/out/build/${presetName}/utils2/Debug/"
+            "utils2_DIR_CUSTOM": "D:/repo/utils2/out/install/windows-base-debug-x64/",
+            "gtest_DIR": "D:/repo/googletest-1.14.0/build",
+            "gtest_INCLUDE_DIRS": "D:\\repo\\googletest\\googletest\\include\\gtest"
         }
     },
     {
