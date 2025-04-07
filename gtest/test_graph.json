@@ -1,0 +1,58 @@
+{
+    "testGraph": [
+        {
+            "Name": "A",
+            "Id": 0,
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "B",
+                    "Id": 1,
+                    "Signal": 0
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "IN",
+                    "Id": -1
+                }
+            ]
+        },
+        {
+            "Name": "B",
+            "Id": 1,
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "C",
+                    "Id": 2,
+                    "Signal": 0
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "A",
+                    "Id":0
+                }
+            ]
+        },
+        {
+            "Name": "C",
+            "Id": 2,
+            "Type": "Estimator",
+            "Next": [
+                {
+                    "Name": "OUT",
+                    "Id": -1,
+                    "Signal": 0
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "B",
+                    "Id": 1
+                }
+            ]
+        }
+    ]
+}

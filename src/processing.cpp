@@ -21,32 +21,33 @@ Processing::Processing(QObject *parent)
 {
   mLogger =
       std::make_unique<logger::Logger>(logger::LogType::PROCESSING, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+  mLogger->showThreadId();
 }
 
 Processing::~Processing()
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 
 Processing::Processing(const Processing& other)
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 
 Processing& Processing::operator=(const Processing& other)
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 	if(this==&other)
 		return *this;
 	return *this;
 }
 Processing::Processing(Processing&& other) noexcept
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 Processing& Processing::operator=(Processing&& other) noexcept
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 	return *this;
 }
 

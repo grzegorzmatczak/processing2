@@ -15,27 +15,28 @@ Filter::Filter(QObject *parent)
 	#endif
 	mLogger =
 		std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+	mLogger->showThreadId();
 	m_baseFilter = new Filters::None{};
-
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->showThreadId();
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 Filter::~Filter()
 {
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 
 Filter::Filter(const Filter& other)
 {
 	mLogger =
 		std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 
 Filter& Filter::operator=(const Filter& other)
 {
 	mLogger =
 		std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 	if(this==&other)
 		return *this;
 	return *this;
@@ -44,13 +45,13 @@ Filter::Filter(Filter&& other) noexcept
 {
 	mLogger =
 		std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 Filter& Filter::operator=(Filter&& other) noexcept
 {
 	mLogger =
 		std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-	mLogger->printStartFunction(__FUNCTION__, logger::LogLevel::MEDIUM);
+	mLogger->printStartFunction(logger::LogLevel::MEDIUM, __FUNCTION__);
 	return *this;
 }
 
@@ -58,7 +59,7 @@ void Filter::configure(QJsonObject const &a_config)
 {
 	auto const _name{ a_config[NAME].toString() };
 	#ifdef DEBUG_FILTERS_MODULES
-	mLogger->print(QString("filter type:%1").arg(_name), __FUNCTION__);
+	mLogger->print(QString("filter type:%1").arg(_name), logger::LogLevel::MEDIUM, __FUNCTION__);
 	#endif
 	delete m_baseFilter;
 	m_timer.reset();
@@ -67,6 +68,7 @@ void Filter::configure(QJsonObject const &a_config)
 	m_baseFilter = new Filters::Color{ a_config };
 	} else if (_name == "Resize") {
 	m_baseFilter = new Filters::Resize{ a_config };
+	mLogger->print(QString("filter type:Resize"), logger::LogLevel::MEDIUM, __FUNCTION__);
 	} else if (_name == "Threshold") {
 	m_baseFilter = new Filters::Threshold{ a_config };
 	} else if (_name == "MedianBlur") {
@@ -110,12 +112,13 @@ void Filter::configure(QJsonObject const &a_config)
 
 void Filter::process(std::vector<_data> &_data)
 {
-	#ifdef DEBUG_FILTERS_MODULES
-	mLogger->print(QString("process"), __FUNCTION__);
-	#endif
+	//#ifdef DEBUG_FILTERS_MODULES
+	mLogger->print(QString("filter type:_data[] processing cols:%1").arg(_data[0].processing.cols), logger::LogLevel::MEDIUM, __FUNCTION__);
+	//#endif
 	m_timer.start();
 	m_baseFilter->process(_data);
 	m_timer.stop();
+	mLogger->print(QString("filter type:_data[] processing cols:%1").arg(_data[0].processing.cols), logger::LogLevel::MEDIUM, __FUNCTION__);
 }
 double Filter::getElapsedTime()
 {

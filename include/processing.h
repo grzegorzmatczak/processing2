@@ -1,5 +1,4 @@
-#ifndef PROCESSING_H
-#define PROCESSING_H
+#pragma once
 
 #include <memory>
 
@@ -12,9 +11,9 @@
 struct _data
 {
     _data()
+        :testStr("_data()")
     {
-        mLogger =
-            std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+        mLogger = std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
         mLogger->print(QString("_data()"), logger::LogLevel::MEDIUM, __FUNCTION__);
     }
     _data(cv::Mat& frame, const QString& str)
@@ -22,8 +21,7 @@ struct _data
         , testStr(str)
 
     {
-        mLogger =
-            std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+        mLogger = std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
         mLogger->print(QString("_data(cv::Mat& frame, const QString& str)"), logger::LogLevel::MEDIUM, __FUNCTION__);
     }
     ~_data()
@@ -32,15 +30,17 @@ struct _data
         : processing(other.processing)
         , testStr(other.testStr)
     {
-        mLogger =
-            std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-        mLogger->print(QString("_data(const _data& other)"), logger::LogLevel::MEDIUM, __FUNCTION__);
+        mLogger = std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+        //mLogger->print(QString("_data(const _data& other)"), logger::LogLevel::MEDIUM, __FUNCTION__);
+        mLogger->print(QString("_data(const _data& other) testStr:%1").arg(testStr), logger::LogLevel::MEDIUM, __FUNCTION__);
     }
     _data& operator=(const _data& other)
     {
-        mLogger =
-            std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
-        mLogger->print(QString("_data& operator=(const _data& other)"), logger::LogLevel::MEDIUM, __FUNCTION__);
+        processing=other.processing;
+        testStr=other.testStr;
+        mLogger = std::make_unique<logger::Logger>(logger::LogType::CONFIG, logger::LogLevel::MEDIUM, logger::LogFunction::YES);
+        //mLogger->print(QString("_data& operator=(const _data& other)"), logger::LogLevel::MEDIUM, __FUNCTION__);
+        mLogger->print(QString("_data& operator=(const _data& other) testStr:%1").arg(testStr), logger::LogLevel::MEDIUM, __FUNCTION__);
         if(this==&other)
             return *this;
         return *this;
@@ -88,5 +88,3 @@ public:
 protected:
     std::unique_ptr<logger::Logger> mLogger;
 };
-
-#endif // PROCESSING_H

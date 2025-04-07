@@ -1,0 +1,27 @@
+{
+    "testGraph": [
+        {
+            "Type": "A",
+            "Name": "GaussianBlur",
+            "KernelSizeX": 3,
+            "KernelSizeY": 3,
+            "SigmaX": 3,
+            "SigmaY": 3,
+            "BorderType": 4
+        },
+        {
+            "Type": "B",
+            "Name": "GaussianBlur",
+            "KernelSizeX": 5,
+            "KernelSizeY": 5,
+            "SigmaX": 3,
+            "SigmaY": 3,
+            "BorderType": 4
+        },
+        {
+            "Type": "C",
+            "Name": "NONE",
+            "NONE": 0
+        }
+    ]
+}

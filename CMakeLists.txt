@@ -47,8 +47,22 @@ file(GLOB_RECURSE FILTER_HEADERS src/Filter/*.h src/Filter/*.hpp)
 file(GLOB_RECURSE SUBTRACTOR_SRC src/Subtractor/*.cc src/Subtractor/*.c)
 file(GLOB_RECURSE SUBTRACTOR_HEADERS src/Subtractor/*.h src/Subtractor/*.hpp)
 
+macro(copy_json jsonname jsonpath)
+    configure_file(${jsonpath}${jsonname} ${CMAKE_BUILD_TYPE}/${jsonname})
+    configure_file(${jsonpath}${jsonname} ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${jsonname})
+endmacro()
+
+copy_json("test.json" "gtest/")
+copy_json("test_graph.json" "gtest/")
+copy_json("test_graph2.json" "gtest/")
+copy_json("test_graph3.json" "gtest/")
+copy_json("test_graph_config.json" "gtest/")
+
 set(SRC
-    src/processing.cc
+    src/processing.cpp
+    src/processing_threads.cpp
+    src/graph.cpp
+    src/graph_threads.cpp
     ${ADDER_SRC}
     ${FILTER_SRC}
     ${SUBTRACTOR_SRC}
@@ -57,6 +71,10 @@ set(SRC
 set(HEADERS
     include/processing.h
     include/processing_global.h
+    include/processing_threads.h
+    include/graph.hpp
+    include/graph_global.h
+    include/graph_threads.hpp
     ${ADDER_HEADERS}
     ${FILTER_HEADERS}
     ${SUBTRACTOR_HEADERS}
@@ -72,6 +90,10 @@ set(SRC_HEADERS_TEST
     gtest/gtest_filter_custom_viterbi.h
     gtest/gtest_filter_median_impl_2.cc
     gtest/gtest_filter_median_impl_2.h
+    gtest/gtest_graph.cpp
+	gtest/gtest_graph.hpp
+    gtest/gtest_graph_threads.cpp
+	gtest/gtest_graph_threads.hpp
 )
 
 include_directories( "src" )

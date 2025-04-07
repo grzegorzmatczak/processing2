@@ -1,0 +1,217 @@
+{
+    "testGraph": [
+        {
+            "Name": "A",
+            "Id": 0,
+            "ThreadId": 0,
+            "ThreadPrev": [ { "ThreadId": -1 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "B",
+                    "Id": 2
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "",
+                    "Id": -1
+                }
+            ],
+            "Config": {
+                "Name": "Resize",
+                "Width": 1000,
+                "Height": 1000
+            }
+        },
+        {
+            "Name": "D",
+            "Id": 1,
+            "ThreadId": 1,
+            "ThreadPrev": [ { "ThreadId": -1 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "E",
+                    "Id": 3
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "",
+                    "Id": -1
+                }
+            ],
+            "Config": {
+                "Name": "Resize",
+                "Width": 1000,
+                "Height": 1000
+            }
+        },
+        {
+            "Name": "B",
+            "Id": 2,
+            "ThreadId": 0,
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "C",
+                    "Id": 4
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "A",
+                    "Id": 0
+                }
+            ],
+            "Config": {
+                "Name": "GaussianBlur",
+                "KernelSizeX": 3,
+                "KernelSizeY": 3,
+                "SigmaX": 3,
+                "SigmaY": 3,
+                "BorderType": 4
+            }
+        },
+        {
+            "Name": "E",
+            "Id": 3,
+            "ThreadId": 1,
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "F",
+                    "Id": 5
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "D",
+                    "Id": 1
+                }
+            ],
+            "Config": {
+                "Name": "GaussianBlur",
+                "KernelSizeX": 3,
+                "KernelSizeY": 3,
+                "SigmaX": 3,
+                "SigmaY": 3,
+                "BorderType": 4
+            }
+        },
+        {
+            "Name": "C",
+            "Id": 4,
+            "ThreadId": 0,
+            "ThreadNext": [ { "ThreadId": 2 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "G",
+                    "Id": 6
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "B",
+                    "Id": 2
+                }
+            ],
+            "Config": {
+                "Name": "GaussianBlur",
+                "KernelSizeX": 3,
+                "KernelSizeY": 3,
+                "SigmaX": 3,
+                "SigmaY": 3,
+                "BorderType": 4
+            }
+        },
+        {
+            "Name": "F",
+            "Id": 5,
+            "ThreadId": 1,
+            "ThreadNext": [ { "ThreadId": 2 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "G",
+                    "Id": 6
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "E",
+                    "Id": 3
+                }
+            ],
+            "Config": {
+                "Name": "GaussianBlur",
+                "KernelSizeX": 3,
+                "KernelSizeY": 3,
+                "SigmaX": 3,
+                "SigmaY": 3,
+                "BorderType": 4
+            }
+        },
+        {
+            "Name": "G",
+            "Id": 6,
+            "ThreadId": 2,
+            "ThreadPrev": [
+                { "ThreadId": 0 },
+                { "ThreadId": 1 }
+            ],
+            "Type": "Adder",
+            "Next": [
+                {
+                    "Name": "H",
+                    "Id": 7
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "C",
+                    "Id": 4
+                },
+                {
+                    "Name": "F",
+                    "Id": 5
+                }
+            ],
+            "Config": {
+                "Name": "AddWeighted",
+                "Alpha": 0.5,
+                "Beta": 0.5,
+                "Gamma": 0.0
+            }
+        },
+        {
+            "Name": "H",
+            "Id": 7,
+            "ThreadId": 2,
+            "ThreadNext": [ { "ThreadId": -1 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "",
+                    "Id": -1
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "G",
+                    "Id": 6
+                }
+            ],
+            "Config": {
+                "Name": "GaussianBlur",
+                "KernelSizeX": 3,
+                "KernelSizeY": 3,
+                "SigmaX": 3,
+                "SigmaY": 3,
+                "BorderType": 4
+            }
+        }
+    ]
+}

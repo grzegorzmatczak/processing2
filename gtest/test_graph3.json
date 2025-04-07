@@ -1,0 +1,82 @@
+{
+    "testGraph": [
+        {
+            "Name": "A",
+            "Id": 0,
+            "ThreadId": 0,
+            "ThreadPrev": [ { "ThreadId": -1 } ],
+            "ThreadNext": [ { "ThreadId": 1 } ],
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "B",
+                    "Id": 1
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "",
+                    "Id": -1
+                }
+            ],
+            "Config": {
+                "Name": "Resize",
+                "Width": 100,
+                "Height": 100
+            }
+        },
+        {
+            "Name": "B",
+            "Id": 1,
+            "ThreadId": 1,
+            "ThreadPrev": [ { "ThreadId": 0 } ],
+            "ThreadNext": [ { "ThreadId": 2 } ],
+
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "C",
+                    "Id": 2
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "A",
+                    "Id": 1
+                }
+            ],
+            "Config": {
+                "Name": "Resize",
+                "Width": 200,
+                "Height": 200
+            }
+        },
+        {
+            "Name": "C",
+            "Id": 2,
+            "ThreadId": 2,
+            "ThreadPrev": [ { "ThreadId": 1 } ],
+            "ThreadNext": [ { "ThreadId": -1 } ],
+
+            "Type": "Filter",
+            "Next": [
+                {
+                    "Name": "OUT",
+                    "Id": -1
+                }
+            ],
+            "Prev": [
+                {
+                    "Name": "B",
+                    "Id": 1
+                }
+            ],
+            "Config": {
+                "Name": "Resize",
+                "Width": 300,
+                "Height": 300
+            }
+        }
+
+    ]
+}
